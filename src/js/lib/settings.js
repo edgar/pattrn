@@ -28,7 +28,7 @@ export function process_settings(platform_settings, settings_from_config) {
   /**
    * Initialize instance_settings with defaults
    */
-  var instance_settings = platform_settings.default;
+  var instance_settings = platform_settings;
 
   /**
    * If settings_from_config is not defined, there is nothing to override - just

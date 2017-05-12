@@ -42,4 +42,4 @@ import { default_settings } from './pattrn-default-settings.js';
 import pattrn from './platform.js';
 
 // finally, invoke the actual monolithic pattrn() function
-pattrn(default_settings);
+pattrn(default_settings.default);
