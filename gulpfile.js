@@ -22,6 +22,7 @@ along with Pattrn.  If not, see <http://www.gnu.org/licenses/>.
 var gulp = require('gulp');
 var clean = require('gulp-clean');
 var jade = require('gulp-jade');
+const jshint = require('gulp-jshint');
 var jsonlint = require('gulp-json-lint');
 var sass = require('gulp-sass');
 var util = require('gulp-util');
@@ -113,6 +114,12 @@ gulp.task('sass', function () {
   return gulp.src(config.vendor_stylesheets.map(item => item.stylesheets).concat([ config.src + '/css/**/*.css', config.src + '/css/**/*.scss']))
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest(config.dest + '/css'));
+});
+
+gulp.task('jshint', () => {
+  return gulp.src(config.src + '/js/**/*.js')
+    .pipe(jshint(config.jshint))
+    .pipe(jshint.reporter('default'));
 });
 
 /**
