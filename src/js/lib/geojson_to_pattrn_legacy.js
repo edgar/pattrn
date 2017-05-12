@@ -25,6 +25,23 @@ import default_settings from '../pattrn-default-settings.js';
  * Translate GeoJSON source data to the legacy format that
  * Pattrn v1 expects.
  * Only FeatureCollections comprising Points are supported at the moment
+ * 
+ * @x-technical-debt: Please note that this function is largely useless
+ * since the Pattrn v2.0 release, as with this version we completed a
+ * substantial rewrite of the Pattrn codebase, making handling of variables
+ * much more flexible than it was in the Pattrn v1.0 proof of concept.
+ * Basically whereas during the initial phases of the v2.0 development
+ * cycle we were retrofitting GeoJSON datasets into the v1.0 data format
+ * with fixed column types, we eventually made the new variable handling
+ * the default one, "forward"-fitting v1.0 datasets to the v2.0 codebase
+ * (this only requires a simple variable metadata file that describes
+ * the type of each variable (as a column name) used in a Pattrn v1.0
+ * Google Sheets-based dataset).
+ * Now that Pattrn v2.0 has been released, the retrofitting of v2.0
+ * datasets to v1.0 data format should be dropped, and the
+ * "forward"-fitting of v1.0 datasets to the v2.0 data format should
+ * be tested and documented.
+ * 
  * @param Object data The GeoJSON feature collection
  * @param Object The dataset structured as Pattrn v1 expects
  */
