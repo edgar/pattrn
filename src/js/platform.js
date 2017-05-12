@@ -460,13 +460,19 @@ function consume_table(data_source_type, config, platform_settings, settings, da
        * call below ('#tableSearch') with the appropriate per-layer group
        * selector.
        */
-      activate_text_search_widget({
-        crossfilter: layer_data.crossfilter,
-        dc: dc,
-        non_empty_tag_variables: layer_data.non_empty_variables.find(vt => vt.type === 'tag').names,
-        chart_group_id: chart_group_id,
-        el: '#tableSearch'
-      });
+      const non_empty_tag_variables = layer_data.non_empty_variables.find(vt => vt.type === 'tag');
+
+      if(is_defined(non_empty_tag_variables)) {
+        activate_text_search_widget({
+          crossfilter: layer_data.crossfilter,
+          dc: dc,
+          non_empty_tag_variables: non_empty_tag_variables.names,
+          chart_group_id: chart_group_id,
+          el: '#tableSearch'
+        });
+      } else {
+        $('.text-search').addClass('unavailable');
+      }
 
       /**
        * @x-technical-debt: in legacy code, a variable for each chart was
