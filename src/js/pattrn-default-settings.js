@@ -25,6 +25,11 @@ export const default_settings = {
       "id": "single_data_set",
       "name": "all_data"
     },
+    "media_variables": [
+      "photos",
+      "videos",
+      "links"
+    ],
     "title": "Pattrn",
     "subtitle": "A data-driven, participatory fact mapping platform",
     "about": "Pattrn is a tool to map complex events - such as conflicts, protests, or crises - as they unfold.",
