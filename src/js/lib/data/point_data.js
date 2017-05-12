@@ -152,51 +152,91 @@ function point_data_click(
     );
 
     if (is_defined(e.target.data.photos)) {
-      // Photos
-      d3.json(e.target.data.photos, function(D) {
+      // If the dataset is a Pattrn v1.0 one (Google Sheets),
+      // use the v1 code path
+      if(false && is_defined(dataset_metadata.document_schema) &&
+        is_defined(dataset_metadata.document_schema.version) &&
+        dataset_metadata.document_schema.version == 1) {
+          d3.json(e.target.data.photos, function (D) {
 
-        var json_photos = $.parseJSON('[' + item.photos + ']');
+          var json_photos = $.parseJSON('[' + item.photos + ']');
 
-        for (j = 0; j < json_photos.length; j++) {
-          $('#image_gallery').append(
-            '<li data-src="' + json_photos[j].src +
-            '"data-sub-html="' + json_photos[j].subhtml + '" >' +
-            '<img src="' + json_photos[j].thumb + '"/>' +
-            '<br/>' +
-            json_photos[j].caption +
-            '<p>Source: ' + json_photos[j].source + '</p>' +
-            '</li>'
-          );
-        }
-
-
-        $(document).ready(function() {
-          $("#image_gallery").lightGallery();
+          for (j = 0; j < json_photos.length; j++) {
+            $('#image_gallery').append(
+              '<li data-src="' + json_photos[j].src +
+              '"data-sub-html="' + json_photos[j].subhtml + '" >' +
+              '<img src="' + json_photos[j].thumb + '"/>' +
+              '<br/>' +
+              json_photos[j].caption +
+              '<p>Source: ' + json_photos[j].source + '</p>' +
+              '</li>'
+            );
+          }
         });
+      } else {
+        var json_photos = e.target.data.source_variables.photos;
 
+        //for (j = 0; j < json_photos.length; j++) {
+        if (Array.isArray(json_photos)) {
+          json_photos.forEach(function (item, index) {
+            $('#image_gallery').append(
+              '<li data-src="' + json_photos[index].src +
+              '"data-sub-html="' + json_photos[index].subhtml + '" >' +
+              '<img src="' + json_photos[index].thumb + '"/>' +
+              '<br/>' +
+              json_photos[index].caption +
+              '<p>Source: ' + json_photos[index].source + '</p>' +
+              '</li>'
+            );
+          });
+        }
+      }
+
+      $(document).ready(function () {
+        $("#image_gallery").lightGallery();
       });
     }
 
     if (is_defined(e.target.data.videos)) {
-      // Videos
-      d3.json(e.target.data.videos, function(D) {
+      // If the dataset is a Pattrn v1.0 one (Google Sheets),
+      // use the v1 code path
+      if (false && is_defined(dataset_metadata.document_schema) &&
+        is_defined(dataset_metadata.document_schema.version) &&
+        dataset_metadata.document_schema.version == 1) {
+          d3.json(e.target.data.videos, function (D) {
 
-        var json_videos = $.parseJSON('[' + item.videos + ']');
+          var json_videos = $.parseJSON('[' + item.videos + ']');
 
-        for (j = 0; j < json_videos.length; j++) {
-          $('#video_gallery').append(
-            '<li style= "list-style-type: none;" data-src="' + json_videos[j].src +
-            '"data-sub-html="' + json_videos[j].subhtml + '" id="image_link">' +
-            '<a href="#"><p>Video: <strong>' + json_videos[j].caption + '</strong></p></a>' +
-            '<p>Source: ' + json_videos[j].source + '</p>' +
-            '</li>'
-          );
-        }
-
-        $(document).ready(function() {
-          $("#video_gallery").lightGallery();
+          for (j = 0; j < json_videos.length; j++) {
+            $('#video_gallery').append(
+              '<li style= "list-style-type: none;" data-src="' + json_videos[j].src +
+              '"data-sub-html="' + json_videos[j].subhtml + '" id="image_link">' +
+              '<a href="#"><p>Video: <strong>' + json_videos[j].caption + '</strong></p></a>' +
+              '<p>Source: ' + json_videos[j].source + '</p>' +
+              '</li>'
+            );
+          }
         });
+      } else {
+        var json_videos = e.target.data.source_variables.videos;
 
+        /*for (j = 0; j < json_videos.length; j++) {*/
+        if (Array.isArray(json_videos)) {
+          json_videos.forEach(function (item, index) {
+            $('#video_gallery').append(
+              '<li style= "list-style-type: none;" data-src="' + item.src +
+              '"data-sub-html="' + item.subhtml + '" id="image_link">' +
+              '<a target="_blank" href="' + item.src + '"><img src="' + item.thumb + '" /><p>Video: <strong>' + item.caption + '</strong></p></a>' +
+              '<p>Source: ' + item.source + '</p>' +
+              '</li>'
+            );
+          });
+        }
+      }
+
+
+      $(document).ready(function () {
+        $("#video_gallery").lightGallery();
       });
     }
 
