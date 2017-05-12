@@ -170,6 +170,31 @@ export function geojson_to_pattrn_legacy_data_structure(data, dataset_metadata, 
         });
       }
 
+      /**
+       * Now add videos, photos and links variables, if defined.
+       * As above, no need to fit these into the legacy dataset structure.
+       */
+      if(is_defined(variables.media)) {
+        /**
+         * Some media variables are defined in the instance's variable
+         * metadata: add to the data point all the relevant media
+         * variables (at most one per type is supported).
+         * A list of supported media types is defined in the default
+         * Pattrn settings (as settings.media array).
+         */
+        platform_settings.media_variables.forEach((media_type) => {
+          const media_type_variables = variables.media.filter((v) => {
+            return v.type === media_type;
+          });
+          if(media_type_variables.length > 1) {
+            console.log(`More than one variable of type media/${media_type} was defined in the instance variable metadata file: using the first.`);
+          };
+          if(media_type_variables.length == 1) {
+            data[media_type] = value.properties[media_type_variables[0].id];
+          }
+        })
+      }
+
       data['pattrn_data_set'] = data.source_data_set;
       data['source_variables'] = value.properties;
 
