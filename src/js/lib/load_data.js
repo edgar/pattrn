@@ -29,14 +29,14 @@ import { is_defined } from './utils/is_defined.js';
  * as fallback, if any Google Sheet document is defined, we load the
  * first one.
  */
-export function load_data(data_sources) {
+export function load_data(data_sources, platform_settings) {
   if(data_sources.geojson_data && data_sources.geojson_data.data_url && data_sources.geojson_data.data_url.length) {
     q.defer(d3.json, data_sources.geojson_data.data_url)
       .defer(d3.json, data_sources.geojson_data.metadata_url)
       .defer(d3.json, data_sources.geojson_data.settings_url)
       .await(function(error, dataset, variables, settings) {
         if (error) throw error;
-        var dataset_in_legacy_format = geojson_to_pattrn_legacy_data_structure(dataset, variables, config, settings);
+        var dataset_in_legacy_format = geojson_to_pattrn_legacy_data_structure(dataset, variables, config, settings, platform_settings);
         consume_table(dataset_in_legacy_format, variables, settings, 'geojson_file');
       });
   } else if(data_sources.json_file && data_sources.json_file.length) {

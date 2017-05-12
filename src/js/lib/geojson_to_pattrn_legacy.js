@@ -28,7 +28,7 @@ import default_settings from '../pattrn-default-settings.js';
  * @param Object data The GeoJSON feature collection
  * @param Object The dataset structured as Pattrn v1 expects
  */
-export function geojson_to_pattrn_legacy_data_structure(data, dataset_metadata, config, settings) {
+export function geojson_to_pattrn_legacy_data_structure(data, dataset_metadata, config, settings, platform_settings) {
   var features = [];
   var variables = dataset_metadata.variables;
 

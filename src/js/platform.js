@@ -998,7 +998,7 @@ function load_geojson_data(config, platform_settings, error, dataset, variables,
     variables = YAML.parse(variables);
   }
 
-  dataset_in_legacy_format = geojson_to_pattrn_legacy_data_structure(dataset, variables, config, settings);
+  dataset_in_legacy_format = geojson_to_pattrn_legacy_data_structure(dataset, variables, config, settings, platform_settings);
 
   /**
    * @since 2.0.0-rc1
