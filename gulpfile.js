@@ -19,21 +19,21 @@ along with Pattrn.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-var gulp = require('gulp');
-var clean = require('gulp-clean');
-var jade = require('gulp-jade');
+const gulp = require('gulp');
+const clean = require('gulp-clean');
+const jade = require('gulp-jade');
 const jshint = require('gulp-jshint');
-var jsonlint = require('gulp-json-lint');
-var sass = require('gulp-sass');
-var util = require('gulp-util');
-var webserver = require('gulp-webserver');
+const jsonlint = require('gulp-json-lint');
+const sass = require('gulp-sass');
+const util = require('gulp-util');
+const webserver = require('gulp-webserver');
 
-var browserify = require('browserify');
-var babelify = require('babelify');
+const browserify = require('browserify');
+const babelify = require('babelify');
 const execSync = require('child_process').execSync;
-var source = require('vinyl-source-stream');
+const source = require('vinyl-source-stream');
 
-var config = require('./package.json').pattrn_configuration;
+const config = require('./package.json').pattrn_configuration;
 
 const source_data_packages_config_file = './source-data-packages.json';
 
