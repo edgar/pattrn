@@ -25,6 +25,12 @@ export const default_settings = {
       "id": "single_data_set",
       "name": "all_data"
     },
+    "data_variable_types": [
+      "integer",
+      "tag",
+      "boolean",
+      "tree"
+    ],
     "media_variables": [
       "photos",
       "videos",

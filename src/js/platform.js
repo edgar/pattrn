@@ -343,7 +343,20 @@ function consume_table(data_source_type, config, platform_settings, settings, da
        * @x-technical-debt: check that layer_data.variables is defined before
        * trying to get its keys.
        */
-      layer_data['variable_names'] = Object.keys(layer_data.variables).map((variable_type) => {
+
+      /*
+       * First we compute the intersection of this layer's variable type names
+       * and the names of data variable types hardcoded in Pattrn's platform_settings
+       */
+      const layer_data_variable_types = Object.keys(layer_data.variables).filter((v) => {
+        return platform_settings.data_variable_types.indexOf(v) !== -1;
+      });
+
+      /*
+       * Then we parse the actual variable names for this layer and group them by
+       * variable type
+       */
+      layer_data['variable_names'] = layer_data_variable_types.map((variable_type) => {
         return {
           type: variable_type,
           names: layer_data.variables[variable_type].map((item) => { return item.id; })
