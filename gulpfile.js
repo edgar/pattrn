@@ -43,7 +43,7 @@ const source_data_packages_config_file = './source-data-packages.json';
 /**
  * @technical-debt: pattrn-data-config.json is not mandatory, as data can be
  * pulled in in a number of different ways, so we should first check for its
- * existence here, and handle this scenario in the install_data_packages task
+ * existence here, and handle this scenario in the install-data-packages task
  * accordingly.
  */
 try {
@@ -84,7 +84,7 @@ gulp.task('bundle', ['vendor-assets'], function () {
     return browserify({entries: config.assets.app_main, debug: true})
         .transform(babelify, {presets: ["es2015"]})
         .bundle()
-        .pipe(source(config.bundle))
+        .pipe(source(config.assets.bundle))
         .pipe(gulp.dest(config.dest));
 });
 
@@ -95,18 +95,23 @@ gulp.task('watch', ['bundle'], function () {
 gulp.task('default', ['watch']);
 
 gulp.task('clean', [], () => {
-  return gulp.src([config.src + '/data/*', config.dest], {read: false})
+  return gulp.src([
+      config.src + '/data/*',
+      config.dest,
+      config.release_artifacts.dist_folder,
+      config.release_artifacts.download_zip.filename
+    ], {read: false})
     .pipe(clean());
 });
 
-gulp.task('jsonlint', function(){
-      gulp.src('js/config.json')
-        .pipe(jsonlint())
-        .pipe(jsonlint.report('verbose'));
+gulp.task('jsonlint', () => {
+  return gulp.src(config.assets.config)
+    .pipe(jsonlint())
+    .pipe(jsonlint.report('verbose'));
 });
 
 gulp.task('views', [], () => {
-  gulp.src([`${config.src}/**/*.jade`])
+  return gulp.src(config.assets.views.map((v) => { return `${config.src}${v}`;}))
     .pipe(jade({
       pretty: true
     }))
@@ -132,7 +137,7 @@ gulp.task('jshint', () => {
  * @x-technical-debt: config.source_data_packages is an array, but we only
  * support a single data package at the moment (config.source_data_packages[0])
  */
-gulp.task('install_data_packages', [], () => {
+gulp.task('install-data-packages', [], () => {
   if(config.source_data_packages) {
     const source_data_package = config.source_data_packages[0];
 
@@ -147,29 +152,30 @@ ${JSON.stringify(source_data_package, undefined, 2)}\n`);
     const source_data_package_install = execSync('npm install ' + source_data_package.source);
   }
 
-  return gulp.src('dist/');
+  return gulp.src(config.dest);
 });
 
-gulp.task('bundle_data_packages', ['populate_dist', 'install_data_packages'], () => {
+gulp.task('bundle-data-packages', ['install-data-packages'], () => {
   if(config.source_data_packages) {
     const source_data_package = config.source_data_packages[0];
 
     gulp.src('node_modules/' + source_data_package.package + '/pattrn-data/**/*')
-      .pipe(gulp.dest('dist'));
+      .pipe(gulp.dest(config.dest));
   }
 
-  return gulp.src('dist/')
-})
+  return gulp.src(config.dest)
+    .pipe(gulp.dest(config.dest));
+});
 
 gulp.task('populate_dist', ['jsonlint', 'bundle', 'views', 'sass'], function() {
   gulp.src(['src/**/*'])
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('build', ['bundle_data_packages']);
+gulp.task('build', ['bundle-data-packages', 'jsonlint', 'bundle', 'views', 'vendor-stylesheets', 'sass',]);
 
 gulp.task('webserver', function() {
-  gulp.src('dist')
+  gulp.src(config.dest)
     .pipe(webserver({
       host: '0.0.0.0',
       port: '8080',
