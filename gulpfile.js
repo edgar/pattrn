@@ -27,12 +27,14 @@ const jsonlint = require('gulp-json-lint');
 const sass = require('gulp-sass');
 const util = require('gulp-util');
 const webserver = require('gulp-webserver');
+const zip = require('gulp-zip');
 
 const browserify = require('browserify');
 const babelify = require('babelify');
 const execSync = require('child_process').execSync;
 const merge = require('merge-stream');
 const source = require('vinyl-source-stream');
+const vfs = require('vinyl-fs');
 
 const config = require('./package.json').pattrn_configuration;
 
