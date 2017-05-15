@@ -1,7 +1,14 @@
 language: node_js
 node_js:
-  - "node"
-  - "7"
-  - "6"
+- node
+- '7'
+- '6'
 dist: trusty
 sudo: false
+deploy:
+  provider: releases
+  api_key:
+    secure: JorWTeD/QXPHQFWpgvjsyh/OriQoKBqCtdyBxwWTAFbIIq9f3dNL5z/O9i3/0s2ne08qw0WQmsrH6RuBhJNZFObxnPqM/iruaNbFnkvTkxchQECxEIAoU/JhvZQ5gi3b/WgkCHVOmSV3B7TXgqSxGB/4nN2N7LOxktACcE5K+NoGG1OzLxQqJ7QcHz2wTgpRFhTS5TVF7nYhiezl8W5v7C/IR9ubmBd1jmUB6wXefVmJeJ+AN3QwzZgdBK8dMC+WrGdOROd7oQYEr8ttWpu4F+00bfQC+PL+pqs6rGbtpaxnVaOgo3nC3UIEgq16ILpgFrSarhXqmiwEIaPT3L0qIQwz1s+tvZ8Bbn/ON095rkSDY+z/irjGn67H0mtjbKGg472XmUalBu/oLCaFXd6jnK1GvjYHPApBAp15chd03h6ybbqAdZAIdU8k/n8aZYLi6aKwhMDWYLsC4qOu2wtSlQ20LMhVFLDTq/mcGDYNZHJH4WH0venPKI+R6WTobJTnhr24r1ya4QRHLsr2sPpD+ThrN7bcjMujBfaI0H6n8Yxqr/eDkDF/PKx3B4Ul9sHEDPvAawnygZh2Ju//QhG4b4NfdpKmqFreZdRAU5+nNi+AgZpVBA5NEd+Bo0axmIB/VuVfRuPA9S6WWadVR1IoMxzbUJfyGYRbOOZPLQTKqoU=
+  file: pattrn-app.zip
+  on:
+    tags: true
