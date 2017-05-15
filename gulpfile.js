@@ -175,9 +175,28 @@ gulp.task('bundle-data-packages', ['install-data-packages'], () => {
     .pipe(gulp.dest(config.dest));
 });
 
-gulp.task('populate_dist', ['jsonlint', 'bundle', 'views', 'sass'], function() {
-  gulp.src(['src/**/*'])
-    .pipe(gulp.dest('dist'));
+/**
+ * Build zip and tar.gz files for release
+ */
+gulp.task('release-artifacts', ['build'], () => {
+  /**
+   * Use pattrn-app-`git describe` as name of the top folder within the
+   * zip file
+   */
+  const pattrn_commit = execSync('git describe').toString().trim();
+
+  /**
+   * Copy built assets to folder with name pattrn-app-`git describe`
+   */
+  gulp.src(`${config.dest}/**/*`)
+    .pipe(gulp.dest(`${config.release_artifacts.dist_folder}/pattrn-app-${pattrn_commit}`));
+ 
+  /**
+   * Create zip file
+   */
+  return gulp.src(`${config.release_artifacts.dist_folder}/**`)
+    .pipe(zip(config.release_artifacts.download_zip.filename))
+    .pipe(gulp.dest('.'));
 });
 
 gulp.task('build', ['bundle-data-packages', 'jsonlint', 'bundle', 'views', 'vendor-stylesheets', 'sass',]);
