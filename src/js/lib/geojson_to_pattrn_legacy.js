@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2016 andrea rota <a@xelera.eu>
+Copyright (C) 2016, 2017 andrea rota <a@xelera.eu>
 
 This file is part of Pattrn - http://pattrn.co/.
 
