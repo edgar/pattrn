@@ -77,7 +77,7 @@
       "esversion": 6
     },
     "release_artifacts": {
-      "dist_folder": "release_artifacts",
+      "dist_folder": "release-artifacts",
       "download_zip": {
         "filename": "pattrn-app.zip",
         "root_folder": "pattrn"
