@@ -1,6 +1,7 @@
 node_modules
 npm-debug.log
 dist
+release-artifacts
 docs/build
 src/data
 # TECHNICAL_DEBT: ignoring main.js is only needed until we properly create the browserify bundle via Gulp
