@@ -70,38 +70,62 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "pattrn_configuration": {
-    "app_main": "src/js/app.js",
-    "bundle": "js/main.js",
     "src": "src",
     "dest": "dist",
     "jshint": {
       "esversion": 6
     },
-    "vendor_stylesheets": [
-      {
-        "stylesheets": "node_modules/bootstrap/dist/css/bootstrap.css",
-        "assets": [
-          {
-            "src": "node_modules/bootstrap/dist/fonts/**/*",
-            "dest": "/fonts"
-          }
-        ]
-      },
-      {
-        "stylesheets": "node_modules/dc/dc.css"
-      },
-      {
-        "stylesheets": "node_modules/leaflet/dist/leaflet.css"
-      },
-      {
-        "stylesheets": "node_modules/lightgallery/dist/css/lightgallery.css",
-        "assets": [
-          {
-            "src": "node_modules/lightgallery/dist/fonts/**/*",
-            "dest": "/fonts"
-          }
-        ]
+    "release_artifacts": {
+      "dist_folder": "release_artifacts",
+      "download_zip": {
+        "filename": "pattrn-app.zip",
+        "root_folder": "pattrn"
       }
-    ]
+    },
+    "assets": {
+      "config": [
+        "/config.json"
+      ],
+      "app_main": "src/js/app.js",
+      "bundle": "js/main.js",
+      "views": [
+        "/index.jade"
+      ],
+      "stylesheets": [
+        "/css/styles.scss"
+      ],
+      "vendor_assets": [
+        {
+          "stylesheets": "node_modules/bootstrap/dist/css/bootstrap.css",
+          "assets": [
+            {
+              "src": "node_modules/bootstrap/dist/fonts/**/*",
+              "dest": "/fonts"
+            }
+          ]
+        },
+        {
+          "stylesheets": "node_modules/dc/dc.css"
+        },
+        {
+          "stylesheets": "node_modules/leaflet/dist/leaflet.css",
+          "assets": [
+            {
+              "src": "node_modules/leaflet/dist/images/layers*png",
+              "dest": "/css/images"
+            }
+          ]
+        },
+        {
+          "stylesheets": "node_modules/lightgallery/dist/css/lightgallery.css",
+          "assets": [
+            {
+              "src": "node_modules/lightgallery/dist/fonts/**/*",
+              "dest": "/fonts"
+            }
+          ]
+        }
+      ]
+    }
   }
 }
