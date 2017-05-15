@@ -41,6 +41,12 @@ const config = require('./package.json').pattrn_configuration;
 const source_data_packages_config_file = './source-data-packages.json';
 
 /**
+ * Use pattrn-app-`git describe` as name of the top folder within the
+ * zip file (for release artifacts tasks)
+ */
+const pattrn_commit = execSync('git describe').toString().trim();
+
+/**
  * @technical-debt: pattrn-data-config.json is not mandatory, as data can be
  * pulled in in a number of different ways, so we should first check for its
  * existence here, and handle this scenario in the install-data-packages task
@@ -178,19 +184,15 @@ gulp.task('bundle-data-packages', ['install-data-packages'], () => {
 /**
  * Build zip and tar.gz files for release
  */
-gulp.task('release-artifacts', ['build'], () => {
-  /**
-   * Use pattrn-app-`git describe` as name of the top folder within the
-   * zip file
-   */
-  const pattrn_commit = execSync('git describe').toString().trim();
-
+gulp.task('release-artifacts-dist-folder', ['build'], () => {
   /**
    * Copy built assets to folder with name pattrn-app-`git describe`
    */
-  gulp.src(`${config.dest}/**/*`)
+  return gulp.src(`${config.dest}/**/*`)
     .pipe(gulp.dest(`${config.release_artifacts.dist_folder}/pattrn-app-${pattrn_commit}`));
- 
+});
+
+gulp.task('release-artifacts', ['release-artifacts-dist-folder'], () => {
   /**
    * Create zip file
    */
