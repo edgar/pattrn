@@ -118,8 +118,16 @@ gulp.task('views', [], () => {
     .pipe(gulp.dest(config.dest))
 });
 
-gulp.task('sass', function () {
-  return gulp.src(config.vendor_stylesheets.map(item => item.stylesheets).concat([ config.src + '/css/**/*.css', config.src + '/css/**/*.scss']))
+gulp.task('vendor-stylesheets', () => {
+  return gulp 
+    .src(config.assets.vendor_assets
+      .map(item => item.stylesheets))
+    .pipe(gulp.dest(config.dest + '/css'));
+});
+
+gulp.task('sass', () => {
+  return gulp
+    .src(config.assets.stylesheets.map((v) => { return `${config.src}${v}`; }))
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest(config.dest + '/css'));
 });
