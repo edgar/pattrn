@@ -65,6 +65,8 @@
     "gulp-webserver": "^0.9.1",
     "http-server": "^0.8.5",
     "jshint": "^2.9.4",
+    "merge-stream": "^1.0.1",
+    "vinyl-fs": "^2.4.4",
     "vinyl-source-stream": "^1.1.0"
   },
   "pattrn_configuration": {

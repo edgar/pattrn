@@ -31,6 +31,7 @@ const webserver = require('gulp-webserver');
 const browserify = require('browserify');
 const babelify = require('babelify');
 const execSync = require('child_process').execSync;
+const merge = require('merge-stream');
 const source = require('vinyl-source-stream');
 
 const config = require('./package.json').pattrn_configuration;
@@ -57,28 +58,28 @@ that Pattrn is configured to use this data (in the \`src/config.json\` file).`
 }
 
 /**
- * Copy over assets referenced from vendor stylesheets
+ * Copy over assets from vendor modules (referenced in vendor stylesheets
+ * or used in Pattrn own stylesheets).
  * This is currently configured manually through the assets member of the
- * config.vendor_stylesheets objects, from inspection of the vendor stylesheet
+ * config.assets.vendor_assets objects, from inspection of the vendor stylesheet
  * files for src references
- * @x-technical-debt: the destination is now hardcoded to /fonts within the
- * destination folder; this works but does not address the general scenario
- * where we may need to copy assets anywhere. we need to iterate over the
- * config.vendor_stylesheets elements, read source *and* destination
- * metadata for each, and pipe things accordingly to destinations.
  */
-gulp.task('vendor-stylesheet-assets', function() {
-  gulp.src(
-    config.vendor_stylesheets
+gulp.task('vendor-assets', () => {
+  const assets = config.assets.vendor_assets
       .filter(item => { return item.assets && item.assets.length > 0; })
-      .map(item => item.assets.map(group => group.src))
-      .reduce((p, c, i) => { return p.concat(c); }, [])
-    )
-    .pipe(gulp.dest(config.dest + '/fonts'));
+      .map(item => item.assets)
+      .reduce((p, c, i) => { return p.concat(c); }, []);
+
+  const tasks = assets.map((item) => {
+    return gulp.src(item.src)
+      .pipe(gulp.dest(`${config.dest}/${item.dest}`));
+  });
+
+  return merge(tasks);
 });
 
-gulp.task('bundle', ['vendor-stylesheet-assets'], function () {
-    return browserify({entries: config.app_main, debug: true})
+gulp.task('bundle', ['vendor-assets'], function () {
+    return browserify({entries: config.assets.app_main, debug: true})
         .transform(babelify, {presets: ["es2015"]})
         .bundle()
         .pipe(source(config.bundle))
